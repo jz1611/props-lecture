@@ -1,26 +1,50 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import FriendList from './components/FriendList';
+import Input from './components/Input';
+import Button from './components/Button';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+      list: ["josh", "riley", "adam"],
+      name: ""
+    }
+    this.addFriend = this.addFriend.bind(this);
+    this.changeHandler = this.changeHandler.bind(this);
+  }
+
+  addFriend(){
+    this.setState({
+      name: "",
+      list: [...this.state.list, this.state.name]
+    });
+  }
+
+  changeHandler(event) {
+    this.setState({
+      name: event.target.value
+    })
+  }
+
+  render(){
+    const {list, name} = this.state;
+
+    return (
+      <div className="App">
+        <Input
+          changeHandler={ this.changeHandler }
+          name={name}
+        />
+        <Button
+          action={this.addFriend}
+          label="Add Friend"
+        />
+        <FriendList list={list}/>
+      </div>
+    );
+  }
 }
 
 export default App;
